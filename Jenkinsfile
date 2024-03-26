@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/alialtunar/java-dockerized-master'
+                git 'hhttps://github.com/MohanBEEEE/Jenkins-pipeline-to-push-DockerImg-to-DockerHub'
             }
         }
         stage('Build') {
