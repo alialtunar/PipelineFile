@@ -3,12 +3,12 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = "java-app-xxx102144"
+        DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" // Jenkins Credential ID for Docker Hub Access Token
         DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.5"
         SECOND_SERVER_PASSWORD = "debian"
         PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
-        DOCKER_HUB_CREDENTIALS_ID = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" // Jenkins credentials'ların id'si
     }
 
     stages {
@@ -29,15 +29,20 @@ pipeline {
                 }
             }
         }
-        stage('Push Image to Docker Hub') {
+        stage('Login to Docker Hub') {
             steps {
                 script {
-                    withDockerRegistry([ credentialsId: DOCKER_HUB_CREDENTIALS_ID, url: "" ]) {
-                        bat "docker push ${DOCKER_IMAGE_NAME}:latest"
-                    }
+                    sh "echo ${DOCKER_HUB_ACCESS_TOKEN} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin"
                 }
             }
         }
+     stage('Push Image to Docker Hub') {
+    steps {
+        script {
+            sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+        }
+    }
+}
 
         stage('Deploy to Second Linux Server') {
             steps {
