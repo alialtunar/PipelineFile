@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = "java-app-xxx102144"
-        DOCKER_HUB_USERNAME = "altunarali"
-        DOCKER_HUB_PASSWORD = "361330258Aa"
+        DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s"
+        DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.5"
         SECOND_SERVER_PASSWORD = "debian"
@@ -15,7 +15,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/MohanBEEEE/Jenkins-pipeline-to-push-DockerImg-to-DockerHub'
-
             }
         }
         stage('Build') {
@@ -30,15 +29,21 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image to Docker Hub') {
+        stage('Login to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_USERNAME, DOCKER_HUB_PASSWORD) {
-                        docker.image(DOCKER_IMAGE_NAME).push('latest')
-                    }
+                    sh "echo ${DOCKER_HUB_ACCESS_TOKEN} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin"
                 }
             }
         }
+     stage('Push Image to Docker Hub') {
+    steps {
+        script {
+            sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+        }
+    }
+}
+
         stage('Deploy to Second Linux Server') {
             steps {
                 script {
