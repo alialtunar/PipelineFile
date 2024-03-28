@@ -46,7 +46,7 @@ pipeline {
         }
         stage('Push image') {
             steps {
-                withDockerRegistry([credentialsId: env.DOCKER_HUB_ACCESS_TOKEN, url: ""]) {
+                withDockerRegistry([credentialsId: env.DOCKER_HUB_ACCESS_TOKEN, url: "https://index.docker.io/v1/"]) {
                     bat "docker push ${env.DOCKER_IMAGE_NAME}:latest"
                 }
             }
