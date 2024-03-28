@@ -3,18 +3,28 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = "java-app-xxx102144"
-        DOCKER_HUB_USERNAME = "altunarali"
-        DOCKER_HUB_PASSWORD = "361330258Aa"
+        DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" 
         SECOND_SERVER_USERNAME = "altunarali"
+        DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.5"
         SECOND_SERVER_PASSWORD = "debian"
         PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
+        
     }
 
     stages {
+        stage('Initialize') {
+            steps {
+                
+                script {
+                    def dockerHome = tool 'myDocker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+            }
+        }
         stage('Checkout') {
             steps {
-                git 'https://github.com/alialtunar/java-dockerized-master'
+                git branch: 'main', url: 'https://github.com/MohanBEEEE/Jenkins-pipeline-to-push-DockerImg-to-DockerHub'
             }
         }
         stage('Build') {
@@ -25,16 +35,21 @@ pipeline {
         stage('Create Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE_NAME)
+                    docker.build(DOCKER_IMAGE_NAME, '.')
                 }
             }
         }
-        stage('Push Docker Image to Docker Hub') {
+        stage('Login to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_USERNAME, DOCKER_HUB_PASSWORD) {
-                        docker.image(DOCKER_IMAGE_NAME).push('latest')
-                    }
+                    sh "echo ${DOCKER_HUB_ACCESS_TOKEN} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin"
+                }
+            }
+        }
+        stage('Push Image to Docker Hub') {
+            steps {
+                script {
+                    sh "docker push ${DOCKER_IMAGE_NAME}:latest"
                 }
             }
         }
