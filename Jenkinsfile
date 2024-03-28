@@ -9,13 +9,11 @@ pipeline {
         SECOND_SERVER_IP = "10.0.2.5"
         SECOND_SERVER_PASSWORD = "debian"
         PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
-        
     }
 
     stages {
         stage('Initialize') {
             steps {
-                
                 script {
                     def dockerHome = tool 'myDocker'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
@@ -46,10 +44,10 @@ pipeline {
                 }
             }
         }
-        stage('Push Image to Docker Hub') {
+        stage('Push image') {
             steps {
-                script {
-                    sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+                withDockerRegistry([credentialsId: env.DOCKER_HUB_ACCESS_TOKEN, url: ""]) {
+                    bat "docker push ${env.DOCKER_IMAGE_NAME}:latest"
                 }
             }
         }
