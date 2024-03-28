@@ -32,9 +32,11 @@ pipeline {
         }
         stage('Build and Push image') {
             steps {
-                withDockerRegistry(credentialsId: 'altunarali', toolName: 'myDocker') {
-                    sh "docker build -t altunarali/jenkins1:tag123 ."
-                    sh "docker push altunarali/jenkins1:tag123"  
+                script {
+                    withDockerRegistry(credentialsId: 'altunarali', toolName: 'myDocker') {
+                        sh "docker build -t altunarali/jenkins1:tag123 ."
+                        sh "docker push altunarali/jenkins1:tag123"  
+                    }
                 }
             }
         }
