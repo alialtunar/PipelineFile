@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/jose-oc/java-dockerized'
+                git 'https://github.com/alialtunar/java-dockerized-master'
             }
         }
         stage('Build') {
