@@ -46,13 +46,11 @@ pipeline {
                 }
             }
         }
-        stage('Push Image to Docker Hub') {
-            steps {
-                script {
-                    sh "docker push ${DOCKER_IMAGE_NAME}:latest"
-                }
-            }
-        }
+          stage('Push image') {
+    withDockerRegistry([credentialsId: env.DOCKER_HUB_ACCESS_TOKEN, url: "" ]) {
+        bat "docker push ${env.DOCKER_IMAGE_NAME}:latest"
+    }
+}
         stage('Deploy to Second Linux Server') {
             steps {
                 script {
