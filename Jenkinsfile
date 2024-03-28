@@ -30,24 +30,12 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Create Docker Image') {
+        stage('Build and Push image') {
             steps {
-                script {
-                    docker.build(DOCKER_IMAGE_NAME, '.')
-                }
-            }
-        }
-        stage('Login to Docker Hub') {
-            steps {
-                script {
-                    sh "echo ${DOCKER_HUB_ACCESS_TOKEN} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin"
-                }
-            }
-        }
-        stage('Push image') {
-            steps {
-                withDockerRegistry([credentialsId: env.DOCKER_HUB_ACCESS_TOKEN, url: "https://index.docker.io/v1/"]) {
-                    bat "docker push ${env.DOCKER_IMAGE_NAME}:latest"
+                withDockerRegistry(credentialsId: 'altunarali', toolName: 'myDocker') {
+                 sh "docker build -t altunarali/jenkins1:tag123"
+                  sh "docker push"  
+              }
                 }
             }
         }
