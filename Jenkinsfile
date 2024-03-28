@@ -3,15 +3,23 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = "java-app-xxx102144"
-        DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" // Jenkins Credential ID for Docker Hub Access Token
+        DOCKER_HUB_ACCESS_TOKEN = credentials('docker-hub-access-token') // Jenkins Credential ID for Docker Hub Access Token
         DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.5"
         SECOND_SERVER_PASSWORD = "debian"
-        PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
     }
 
     stages {
+        stage('Initialize') {
+            steps {
+                // Docker tool installation
+                script {
+                    def dockerHome = tool 'myDocker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/MohanBEEEE/Jenkins-pipeline-to-push-DockerImg-to-DockerHub'
@@ -36,14 +44,13 @@ pipeline {
                 }
             }
         }
-     stage('Push Image to Docker Hub') {
-    steps {
-        script {
-            sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+        stage('Push Image to Docker Hub') {
+            steps {
+                script {
+                    sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+                }
+            }
         }
-    }
-}
-
         stage('Deploy to Second Linux Server') {
             steps {
                 script {
