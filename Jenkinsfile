@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/alialtunar/java-dockerized-master/blob/master/Dockerfile'
+                git branch: 'main', url: 'https://github.com/alialtunar/java-dockerized-master.git'
             }
         }
         stage('Build') {
