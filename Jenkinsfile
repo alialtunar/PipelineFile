@@ -10,7 +10,8 @@ pipeline {
         SECOND_SERVER_PASSWORD = "debian"
         PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
     }
-
+ stages {
+        
    
         stage('Checkout') {
             steps {
