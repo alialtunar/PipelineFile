@@ -8,7 +8,9 @@ pipeline {
         DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.5"
         SECOND_SERVER_PASSWORD = "debian"
-        PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
+        PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/java/openjdk/bin"
+
+
     }
  stages {
         
