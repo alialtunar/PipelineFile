@@ -30,7 +30,7 @@ pipeline {
     steps {
         script {
             echo "Build and Push image aşamasına başlanıyor..."
-            withDockerRegistry(credentialsId: 'altunarali') {
+            withDockerRegistry(credentialsId: 'acaracar') {
                 echo "Docker Registry'ye bağlanıldı..."
                 sh "docker build -t altunarali/jenkins1:tag123 ."
                 echo "Docker imajı oluşturuldu..."
