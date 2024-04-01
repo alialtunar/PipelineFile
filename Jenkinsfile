@@ -26,16 +26,20 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Build and Push image') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'altunarali') {
-                        sh "docker build -t altunarali/jenkins1:tag123 ."
-                        sh "docker push altunarali/jenkins1:tag123"  
-                    }
-                }
+      stage('Build and Push image') {
+    steps {
+        script {
+            echo "Build and Push image aşamasına başlanıyor..."
+            withDockerRegistry(credentialsId: 'altunarali') {
+                echo "Docker Registry'ye bağlanıldı..."
+                sh "docker build -t altunarali/jenkins1:tag123 ."
+                echo "Docker imajı oluşturuldu..."
+                sh "docker push altunarali/jenkins1:tag123"
+                echo "Docker imajı Docker Registry'e gönderildi..."
             }
         }
+    }
+}
         stage('Deploy to Second Linux Server') {
             steps {
                 script {
