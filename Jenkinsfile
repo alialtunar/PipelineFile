@@ -18,12 +18,12 @@ pipeline {
             steps {
                 script {
                     def existingContainer = sh (
-                        script: "ssh ${SECOND_SERVER_USERNAME}@${SECOND_SERVER_IP} 'docker ps -q --filter name=java-app-container'",
+                        script: "sshpass -p ${SECOND_SERVER_PASSWORD} ssh -o StrictHostKeyChecking=no ${SECOND_SERVER_USERNAME}@${SECOND_SERVER_IP} 'docker ps -q --filter name=java-app-container'",
                         returnStdout: true
                     ).trim()
 
                     if (existingContainer) {
-                        sh "sshpass -p ${SECOND_SERVER_PASSWORD} ssh ${SECOND_SERVER_USERNAME}@${SECOND_SERVER_IP} 'docker rm -f ${existingContainer}'"
+                        sh "sshpass -p ${SECOND_SERVER_PASSWORD} ssh -o StrictHostKeyChecking=no ${SECOND_SERVER_USERNAME}@${SECOND_SERVER_IP} 'docker rm -f ${existingContainer}'"
                     }
                     
                     sh "sshpass -p ${SECOND_SERVER_PASSWORD} ssh -o StrictHostKeyChecking=no ${SECOND_SERVER_USERNAME}@${SECOND_SERVER_IP} 'docker pull altunarali/jenkins1:tag123'"
