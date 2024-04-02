@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     def existingContainer = sh (
-                        script: "/usr/bin/sshpass -p debian ssh -o StrictHostKeyChecking=no altunarali@10.0.2.7 docker ps -q --filter name=java-app-container",
+                        script: "ssh -o StrictHostKeyChecking=no altunarali@10.0.2.7 docker ps -q --filter name=java-app-container",
                         returnStdout: true
                     ).trim()
 
