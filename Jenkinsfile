@@ -8,7 +8,7 @@ pipeline {
         DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.7"
         SECOND_SERVER_PASSWORD = "debian"
-       PATH = "$PATH:/usr/bin"
+       PATH = "/usr/bin:$PATH"
 
 
 
