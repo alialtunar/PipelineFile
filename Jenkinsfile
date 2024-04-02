@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = "java-app-xxx102144"
         DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" 
-        SECOND_SERVER_USERNAME = "altunarali"
+        SECOND_SERVER_USERNAME = "debian"
         DOCKERHUB_USERNAME = "altunarali"
         SECOND_SERVER_IP = "10.0.2.7"
         SECOND_SERVER_PASSWORD = "debian"
