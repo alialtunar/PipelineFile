@@ -6,7 +6,7 @@ pipeline {
         DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" 
         SECOND_SERVER_USERNAME = "altunarali"
         DOCKERHUB_USERNAME = "altunarali"
-        SECOND_SERVER_IP = "10.0.2.5"
+        SECOND_SERVER_IP = "10.0.2.7"
         SECOND_SERVER_PASSWORD = "debian"
         PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
 
