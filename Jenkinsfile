@@ -11,30 +11,7 @@ pipeline {
     }
     
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/MohanBEEEE/Jenkins-pipeline-to-push-DockerImg-to-DockerHub'
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-        stage('Build and Push image') {
-            steps {
-                script {
-                    echo "Build and Push image aşamasına başlanıyor..."
-                    withDockerRegistry([credentialsId: 'acaracar', url: '']) {
-                        echo "Docker Registry'ye bağlanıldı..."
-                        sh "docker build -t altunarali/jenkins1:tag123 ."
-                        echo "Docker imajı oluşturuldu..."
-                        sh "docker push altunarali/jenkins1:tag123"
-                        echo "Docker imajı Docker Registry'e gönderildi..."
-                    }
-                }
-            }
-        }
+        
        stage('Deploy to Second Linux Server') {
     steps {
         script {
