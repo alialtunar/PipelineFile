@@ -2,14 +2,12 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = "java-app-xxx102144"
-        DOCKER_HUB_ACCESS_TOKEN = "dckr_pat_ZJi4yNE8yUqcnhQwFWBId5oua7s" 
-        SECOND_SERVER_USERNAME = "debian"
-        DOCKERHUB_USERNAME = "altunarali"
-        SECOND_SERVER_IP = "10.0.2.7"
-        SECOND_SERVER_PASSWORD = "debian"
+         DOCKER_IMAGE_NAME = credentials("DOCKER_IMAGE_NAME")
+        SECOND_SERVER_USERNAME = credentials("SECOND_SERVER_USERNAME")
+        DOCKERHUB_USERNAME =  credentials("DOCKERHUB_USERNAME")
+        SECOND_SERVER_IP = credentials("SECOND_SERVER_IP")
+        SECOND_SERVER_PASSWORD = credentials("SECOND_SERVER_PASSWORD")
         PATH = "$PATH:/opt/apache-maven-3.9.6/bin"
-
 
 
     }
