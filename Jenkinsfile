@@ -16,14 +16,21 @@ pipeline {
     steps {
         script {
             def existingContainer = sh (
-                script: "sshpass -p '" + SECOND_SERVER_PASSWORD + "' ssh '" + SECOND_SERVER_USERNAME + "@" + SECOND_SERVER_IP + "' 'docker ps -q --filter name=java-app-container'",
+                script: "sshpass -p '" + SECOND_SERVER_PASSWORD + "' ssh '" + SECOND_SERVER_USERNAME + "@" + SECOND_SERVER_IP + "' 'docker ps -aq --filter name=java-app-container'",
                 returnStdout: true
             ).trim()
 
             if (existingContainer) {
-                sh "sshpass -p '" + SECOND_SERVER_PASSWORD + "' ssh '" + SECOND_SERVER_USERNAME + "@" + SECOND_SERVER_IP + "' 'docker stop ${existingContainer}'"
+                def stopResult = sh "sshpass -p '" + SECOND_SERVER_PASSWORD + "' ssh '" + SECOND_SERVER_USERNAME + "@" + SECOND_SERVER_IP + "' 'docker stop ${existingContainer}'"
+                if (stopResult.exitStatus != 0) {
+                    error "java-app-container durdurulurken bir hata oluştu."
+                }
                 echo "java-app-container durduruldu."
-                sh "sshpass -p '" + SECOND_SERVER_PASSWORD + "' ssh '" + SECOND_SERVER_USERNAME + "@" + SECOND_SERVER_IP + "' 'docker rm ${existingContainer}'"
+
+                def removeResult = sh "sshpass -p '" + SECOND_SERVER_PASSWORD + "' ssh '" + SECOND_SERVER_USERNAME + "@" + SECOND_SERVER_IP + "' 'docker rm ${existingContainer}'"
+                if (removeResult.exitStatus != 0) {
+                    error "java-app-container silinirken bir hata oluştu."
+                }
                 echo "java-app-container başarıyla silindi."
             } else {
                 echo "java-app-container bulunamadığı için silme işlemi yapılmayacak."
@@ -34,6 +41,7 @@ pipeline {
         }
     }
 }
+
 
     }
 }
