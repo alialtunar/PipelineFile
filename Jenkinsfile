@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = credentials("DOCKER_IMAGE_NAME")
-        SECOND_SERVER_USERNAME = credentials(" SECOND_SERVER_USERNAME")
+        SECOND_SERVER_USERNAME = credentials("SECOND_SERVER_USERNAME")
         DOCKERHUB_USERNAME =  credentials("DOCKERHUB_USERNAME")
         SECOND_SERVER_IP = credentials("SECOND_SERVER_IP")
         SECOND_SERVER_PASSWORD = credentials("SECOND_SERVER_PASSWORD")
